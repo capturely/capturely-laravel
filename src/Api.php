@@ -10,7 +10,6 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Response as ResponseFacade;
 
 class Api
 {
@@ -24,7 +23,7 @@ class Api
     }
 
     /**
-     * @return ConversionResponse|\Symfony\Component\HttpFoundation\StreamedResponse|null
+     * @return ConversionResponse|Response
      * @throws ApiErrorException
      */
     public function post()
@@ -33,7 +32,8 @@ class Api
     }
 
     /**
-     * @return ConversionResponse|\Symfony\Component\HttpFoundation\StreamedResponse|null
+     * @param Response $response
+     * @return ConversionResponse|Response
      * @throws ApiErrorException
      */
     protected function parseResponse(Response $response)
@@ -43,11 +43,7 @@ class Api
         }
 
         if ($this->isStream()) {
-            return ResponseFacade::stream(function() use ($response) {
-                echo $response->body();
-            }, 200, [
-                'Content-Type' => $response->header('Content-Type'),
-            ]);
+            return $response;
         }
 
         return new ConversionResponse(json_decode($response->body(), true));

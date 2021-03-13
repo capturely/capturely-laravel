@@ -6,6 +6,7 @@ use Capturely\Responses\ApiErrorException;
 use Capturely\Structures\Pdf;
 use Capturely\Structures\Screenshot;
 use Closure;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Traits\ReflectsClosures;
 use RuntimeException;
 
@@ -190,7 +191,7 @@ class Capturely
     }
 
     /**
-     * @return Responses\ConversionResponse|\Symfony\Component\HttpFoundation\StreamedResponse|null
+     * @return Responses\ConversionResponse|Response
      * @throws ApiErrorException
      */
     public function stream()
@@ -201,7 +202,7 @@ class Capturely
     }
 
     /**
-     * @return Responses\ConversionResponse|\Symfony\Component\HttpFoundation\StreamedResponse|null
+     * @return Responses\ConversionResponse|Response
      * @throws ApiErrorException
      */
     public function capture()
